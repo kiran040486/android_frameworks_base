@@ -5460,7 +5460,7 @@ void TouchInputMapper::dispatchPointerSimple(nsecs_t when, uint32_t policyFlags,
 
     if (mPointerController != NULL) {
         if (down || hovering) {
-            mPointerController->setPresentation(PointerControllerInterface::PRESENTATION_POINTER);
+            mPointerController->setPresentation(PointerControllerInterface::PRESENTATION_SPOT);
             mPointerController->clearSpots();
             mPointerController->setButtonState(mCurrentButtonState);
             unfadePointer(PointerControllerInterface::TRANSITION_IMMEDIATE);
@@ -5677,6 +5677,12 @@ void TouchInputMapper::unfadePointer(PointerControllerInterface::Transition tran
 nsecs_t TouchInputMapper::mLastStylusTime = 0;
 
 bool TouchInputMapper::rejectPalm(nsecs_t when) {
+  if ((when - mLastStylusTime < mConfig.stylusPalmRejectionTime) &&
+      mPointerSimple.currentProperties.toolType != AMOTION_EVENT_TOOL_TYPE_STYLUS ){
+    ALOGD("Rejecting touch input due to stylus activity");
+    ALOGD("Last stylus time %d - Now: %d", mLastStylusTime, when);
+    ALOGD("Tool Type: %d, Reject Time %d", mPointerSimple.currentProperties.toolType, mConfig.stylusPalmRejectionTime);
+  }
   return (when - mLastStylusTime < mConfig.stylusPalmRejectionTime) &&
     mPointerSimple.currentProperties.toolType != AMOTION_EVENT_TOOL_TYPE_STYLUS;
 }
