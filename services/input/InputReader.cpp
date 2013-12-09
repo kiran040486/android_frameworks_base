@@ -5677,12 +5677,12 @@ void TouchInputMapper::unfadePointer(PointerControllerInterface::Transition tran
 nsecs_t TouchInputMapper::mLastStylusTime = 0;
 
 bool TouchInputMapper::rejectPalm(nsecs_t when) {
-  if ((when - mLastStylusTime < mConfig.stylusPalmRejectionTime) &&
-      mPointerSimple.currentProperties.toolType != AMOTION_EVENT_TOOL_TYPE_STYLUS ){
-    ALOGD("Rejecting touch input due to stylus activity");
-    ALOGD("Last stylus time %d - Now: %d", mLastStylusTime, when);
-    ALOGD("Tool Type: %d, Reject Time %d", mPointerSimple.currentProperties.toolType, mConfig.stylusPalmRejectionTime);
-  }
+  // if ((when - mLastStylusTime < mConfig.stylusPalmRejectionTime) &&
+  //     mPointerSimple.currentProperties.toolType != AMOTION_EVENT_TOOL_TYPE_STYLUS ){
+  //   ALOGD("Rejecting touch input due to stylus activity");
+  //   ALOGD("Last stylus time %d - Now: %d", mLastStylusTime, when);
+  //   ALOGD("Tool Type: %d, Reject Time %d", mPointerSimple.currentProperties.toolType, mConfig.stylusPalmRejectionTime);
+  // }
   return (when - mLastStylusTime < mConfig.stylusPalmRejectionTime) &&
     mPointerSimple.currentProperties.toolType != AMOTION_EVENT_TOOL_TYPE_STYLUS;
 }
